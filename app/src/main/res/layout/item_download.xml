@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:scrollIndicators="right">
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="7.91">
+
+        <ImageView
+            android:id="@+id/id_icon"
+            android:layout_width="85dp"
+            android:layout_height="85dp"
+            android:layout_alignParentLeft="true"
+            android:src="@drawable/wchat"
+            android:padding="2dp" />
+
+        <TextView
+            android:id="@+id/id_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:layout_toRightOf="@id/id_icon"
+            android:text="应用名"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/id_mark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/id_name"
+            android:layout_marginTop="3dp"
+            android:layout_toRightOf="@id/id_icon"
+            android:padding="2dp"
+            android:singleLine="true"
+            android:text="评分"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="#f31b1b"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/id_mbs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/id_name"
+            android:layout_marginTop="3dp"
+            android:layout_toRightOf="@+id/id_mark"
+            android:padding="2dp"
+            android:singleLine="true"
+            android:text="内存"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/id_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/id_name"
+            android:layout_marginTop="3dp"
+            android:layout_toRightOf="@+id/id_mbs"
+            android:padding="2dp"
+            android:singleLine="true"
+            android:text="下载量"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textSize="12dp" />
+
+
+        <TextView
+            android:id="@+id/id_des"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/id_mark"
+            android:layout_marginTop="3dp"
+            android:layout_toRightOf="@id/id_icon"
+            android:singleLine="true"
+            android:text="描述"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textSize="12dp" />
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/id_button"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1.21"
+        android:background="@drawable/button"
+        android:focusable="false"
+        android:text="下载"
+        android:textAlignment="center"
+        android:textColor="#fcfdfe"
+        android:textSize="15sp"
+        android:paddingRight="2dp" />
+
+
+</LinearLayout>

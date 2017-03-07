@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.nedusoftware.myapplication">
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/xiaohui"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".SplashActivity"
+            android:label="掌上校园"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".download" />
+        <activity android:name=".DOverview" />
+        <activity android:name=".Xiaoyuanfengguang" />
+        <activity android:name=".Sousuo" />
+        <activity android:name=".Start" />
+        <activity android:name=".YoucelanFragment" />
+        <activity
+            android:name=".Jiaoxuelou"
+            android:label="@string/title_activity_jiaoxuelou" />
+        <activity android:name=".Kongjiaoshi" />
+        <activity android:name=".Xiaoeiditu" />
+        <activity android:name=".Chengji" />
+        <activity android:name=".Kebiao" />
+        <activity android:name=".Kuaidididian" />
+        <activity android:name=".Zhoubianyouwan" />
+        <activity android:name=".AddActivity"/>
+
+        <activity android:name=".Lostfound"></activity>
+    </application>
+
+</manifest>

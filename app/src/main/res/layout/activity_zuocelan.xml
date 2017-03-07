@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_zuocelan"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+>
+    <Button
+        android:id="@+id/ditu1"
+
+        android:background="@drawable/xiaoneiditu"
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <Button
+        android:id="@+id/jiaoxuelou"
+
+        android:background="@drawable/jiaoxuelou"
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <Button
+        android:id="@+id/kongjiaoshi"
+        android:background="@drawable/kongjiaoshi"
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <Button
+
+        android:background="@drawable/chengji"
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/chengji" />
+
+    <Button
+        android:id="@+id/kebiao"
+
+        android:background="@drawable/kebiao"
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</LinearLayout>
