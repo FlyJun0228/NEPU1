@@ -14,6 +14,7 @@ import android.widget.ViewFlipper;
  */
 public class BookFragment extends Fragment {
 
+    private Button mRobotBtn;
    private Button mLostBtn;
     private ViewFlipper viewFlipper1;
     public static BookFragment newInstance(String param1) {
@@ -44,6 +45,17 @@ public class BookFragment extends Fragment {
             public void onClick(View v) {
                 Intent intent= new Intent(getActivity().getApplicationContext(),Lostfound.class);
                 startActivity(intent);
+            }
+        });
+        mRobotBtn = (Button)rootView.findViewById(R.id.robot);
+
+        mRobotBtn.setOnClickListener(new View.OnClickListener()
+        {
+
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getActivity().getApplicationContext(),Robot.class);
+                startActivity(i);
             }
         });
         viewFlipper1=(ViewFlipper)rootView.findViewById(R.id.details1);

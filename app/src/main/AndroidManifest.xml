@@ -41,7 +41,7 @@
         <activity android:name=".Kuaidididian" />
         <activity android:name=".Zhoubianyouwan" />
         <activity android:name=".AddActivity"/>
-
+<activity android:name=".Robot"/>
         <activity android:name=".Lostfound"></activity>
     </application>
 
