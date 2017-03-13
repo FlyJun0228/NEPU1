@@ -35,8 +35,6 @@ public class Robot extends Activity implements OnClickListener {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         initView();
      initData();
-
-
 }
 
 
@@ -51,7 +49,7 @@ public class Robot extends Activity implements OnClickListener {
         mEditTextContent = (EditText) findViewById(R.id.et_sendmessage);
     }
 
-    private String[]msgArray = new String[]{"您好，我是棒棒糖。","那代价是什么？", "有！？", "我也有", "那上吧",
+    private String[]msgArray = new String[]{"您好，我是低级机器人。","那代价是什么？", "我的名字叫棉花糖", "您好", "你赶快去换个奶吧","瞅你咋滴","不敢了",")))))))))))))"
            };
 
 
@@ -61,20 +59,53 @@ public class Robot extends Activity implements OnClickListener {
         ChatMsgEntity entity = new ChatMsgEntity();
         if (contString.isEmpty()) {
             entity.setDate(getDate());
-            entity.setMsgType(true);
+            entity.setMsgTypee(1);
             entity.setText(msgArray[0]);
             mDataArrays.add(entity);
         } else {
-            if (contString.equals("asd")) {
+
+          if (contString.equals("黑爪可以重建你父亲的帝国")) {
                 entity.setDate(getDate());
-                entity.setMsgType(true);
+                entity.setMsgTypee(3);
                 entity.setText(msgArray[1]);
                 mDataArrays.add(entity);
-            } else {
+            }
+            if (contString.equals("代价就是输掉这场比赛")) {
                 entity.setDate(getDate());
-                entity.setMsgType(true);
+                entity.setMsgTypee(3);
+                entity.setText(msgArray[4]);
+                mDataArrays.add(entity);
+            }
+         if (contString.equals("你好")) {
+                entity.setDate(getDate());
+                entity.setMsgTypee(1);
+                entity.setText(msgArray[3]);
+                mDataArrays.add(entity);
+            }
+            if (contString.equals("你叫什么名字")) {
+                entity.setDate(getDate());
+                entity.setMsgTypee(1);
                 entity.setText(msgArray[2]);
                 mDataArrays.add(entity);
+            }
+            if (contString.equals("你瞅啥")) {
+                entity.setDate(getDate());
+                entity.setMsgTypee(1);
+                entity.setText(msgArray[5]);
+                mDataArrays.add(entity);
+            }
+            if (contString.equals("你再瞅一个试试")) {
+                entity.setDate(getDate());
+                entity.setMsgTypee(1);
+                entity.setText(msgArray[6]);
+                mDataArrays.add(entity);
+            }
+            if (contString.equals("你给我唱首PPAP")) {
+                entity.setDate(getDate());
+                entity.setMsgTypee(1);
+                entity.setText(msgArray[7]);
+                mDataArrays.add(entity);
+
             }
         }
         mAdapter = new ChatMsgViewAdapter(this, mDataArrays);
@@ -97,10 +128,17 @@ public class Robot extends Activity implements OnClickListener {
     private void send() {
         String contString = mEditTextContent.getText().toString();
             ChatMsgEntity entity = new ChatMsgEntity();
+        if ((contString.equals("黑爪可以重建你父亲的帝国"))||(contString.equals("代价就是输掉这场比赛"))){
             entity.setDate(getDate());
-        entity.setMsgType(false);
-        entity.setText(contString);
+            entity.setMsgTypee(4);
+            entity.setText(contString);
             mDataArrays.add(entity);
+        }
+        else
+        {  entity.setDate(getDate());
+        entity.setMsgTypee(2);
+        entity.setText(contString);
+            mDataArrays.add(entity);}
 
         initData();
     }

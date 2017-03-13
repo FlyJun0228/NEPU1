@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.nedusoftware.myapplication">
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/xiaohui"
@@ -23,8 +25,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".download" />
         <activity android:name=".DOverview" />
         <activity android:name=".Xiaoyuanfengguang" />
@@ -40,9 +43,11 @@
         <activity android:name=".Kebiao" />
         <activity android:name=".Kuaidididian" />
         <activity android:name=".Zhoubianyouwan" />
-        <activity android:name=".AddActivity"/>
-<activity android:name=".Robot"/>
-        <activity android:name=".Lostfound"></activity>
+        <activity android:name=".AddActivity" />
+        <activity android:name=".Robot" />
+        <activity android:name=".Lostfound" />
+        <activity android:name=".Xiangce" />
+        <activity android:name=".Zhuyaowangzhan"></activity>
     </application>
 
 </manifest>

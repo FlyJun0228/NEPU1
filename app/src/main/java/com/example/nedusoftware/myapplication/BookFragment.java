@@ -16,6 +16,7 @@ public class BookFragment extends Fragment {
 
     private Button mRobotBtn;
    private Button mLostBtn;
+    private Button mXiangce;
     private ViewFlipper viewFlipper1;
     public static BookFragment newInstance(String param1) {
         BookFragment fragment = new BookFragment();
@@ -45,6 +46,16 @@ public class BookFragment extends Fragment {
             public void onClick(View v) {
                 Intent intent= new Intent(getActivity().getApplicationContext(),Lostfound.class);
                 startActivity(intent);
+            }
+        });
+        mXiangce = (Button)rootView.findViewById(R.id.xiangce);
+        mXiangce.setOnClickListener(new View.OnClickListener()
+        {
+
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getActivity().getApplicationContext(),Xiangce.class);
+                startActivity(i);
             }
         });
         mRobotBtn = (Button)rootView.findViewById(R.id.robot);

@@ -9,6 +9,7 @@ public class ChatMsgEntity {
     private String date;
 
     private String text;
+    private int ComMeg ;
 
     private boolean isComMeg = true;
 
@@ -39,20 +40,24 @@ public class ChatMsgEntity {
     public boolean getMsgType(boolean b) {
         return isComMeg;
     }
-
-    public void setMsgType(boolean isComMsg) {
-    	isComMeg = isComMsg;
+    public int getMsgTypee(int b) {
+        return ComMeg;
     }
-
+    public void setMsgType(boolean isComMsg) {
+        isComMeg = isComMsg;
+    }
+    public void setMsgTypee(int ComMsg) {
+        ComMeg = ComMsg;
+    }
     public ChatMsgEntity() {
     }
 
-    public ChatMsgEntity(String name, String date, String text, boolean isComMsg) {
+    public ChatMsgEntity (String name, String date, String text, int ComMsg) {
         super();
         this.name = name;
         this.date = date;
         this.text = text;
-        this.isComMeg = isComMsg;
+        this.ComMeg = ComMsg;
     }
 
 }

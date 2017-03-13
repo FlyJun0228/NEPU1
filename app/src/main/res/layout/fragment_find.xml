@@ -3,80 +3,52 @@
 android:orientation="vertical"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
-
     >
-    <!-- 底部四个导航按钮 -->
-    <LinearLayout
-        android:id="@+id/ll_tabs"
+<FrameLayout
+    android:layout_weight="1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <Button
+        android:textColor="#02123456"
+        android:text="http://54shine.neepu.edu.cn/"
+        android:autoLink="all"
+        android:background="@drawable/logo"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_alignParentBottom="true"
-        android:orientation="horizontal"
-        >
+        android:layout_height="match_parent" />
+</FrameLayout>
 
+    <FrameLayout
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
         <Button
-            android:id="@+id/btn_one"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="One"
-            android:background="#009eff"
-            android:textColor="#fff"
-            />
+            android:background="@drawable/ranjian"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </FrameLayout>
+    <FrameLayout
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
         <Button
-            android:id="@+id/btn_two"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="Two"
-            android:background="#009e00"
-            android:textColor="#fff"
-            />
+            android:autoLink="all"
+            android:textColor="#00123456"
+            android:text="http://www2.neepu.edu.cn/"
+            android:background="@drawable/dierpindao"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </FrameLayout>
+    <FrameLayout
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
         <Button
-            android:id="@+id/btn_three"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="Three"
-            android:background="#009eff"
-            android:textColor="#fff"
-            />
+            android:autoLink="all"
+            android:textColor="#01123456"
+            android:text="http://xcb.neepu.edu.cn/party_office/more/more.php?type=typesix"
+            android:background="@drawable/dangwei"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </FrameLayout>
 
-    </LinearLayout>
-
-    <!-- 覆盖在导航按钮上的覆盖层，表示选中项 -->
-    <ImageView
-        android:id="@+id/imgv_overtab"
-        android:layout_width="60dp"
-        android:layout_height="50dp"
-        android:background="@drawable/hei"
-        android:layout_alignParentBottom="true"
-        />
-
-    <!-- 导航和视图的分割线 -->
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="#f00"
-        android:layout_above="@id/ll_tabs"
-        />
-
-    <!--
-    <RelativeLayout
-        android:id="@+id/fragment_content_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/ll_tabs"
-        android:layout_marginBottom="2dp"
-        android:background="#fff"
-        />
-     -->
-
-    <!-- VIewPager 主要是加载内容的 -->
-    <android.support.v4.view.ViewPager
-        android:id="@+id/viewpager"
-        android:layout_above="@id/ll_tabs"
-        android:layout_marginBottom="2dp"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
 </LinearLayout>

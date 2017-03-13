@@ -16,7 +16,7 @@ import android.widget.ViewFlipper;
 public class LocationFragment extends Fragment {
 private ViewFlipper viewFlipper;
     private Button button;
-    private Button button1,button2;
+    private Button button1,button2,button3;
 
     public static LocationFragment newInstance(String param1) {
         LocationFragment fragment = new LocationFragment();
@@ -68,7 +68,16 @@ private ViewFlipper viewFlipper;
             }
         });
 
+        button3=(Button)rootView.findViewById(R.id.net);
+        button3.setOnClickListener(new View.OnClickListener()
+        {
 
+            @Override
+            public void onClick(View v) {
+                Intent intent= new Intent(getActivity().getApplicationContext(),Zhuyaowangzhan.class);
+                startActivity(intent);
+            }
+        });
         viewFlipper=(ViewFlipper)rootView.findViewById(R.id.details);
         viewFlipper.showPrevious();
         viewFlipper.startFlipping();

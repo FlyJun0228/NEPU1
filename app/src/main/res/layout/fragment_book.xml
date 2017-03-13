@@ -150,6 +150,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
                     <Button
+                        android:id="@+id/xiangce"
                         android:layout_gravity="center"
                         android:layout_width="62dp"
                         android:layout_height="63dp"
@@ -165,7 +166,7 @@
                         android:textStyle="bold"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:text="交易平台"/>
+                        android:text="相册"/>
                 </FrameLayout>
             </LinearLayout>
             <LinearLayout
@@ -194,7 +195,7 @@
                         android:textStyle="bold"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:text="基地小助手"/>
+                        android:text="棉花糖"/>
                 </FrameLayout>
             </LinearLayout>
             <LinearLayout

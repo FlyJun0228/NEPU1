@@ -1,8 +1,10 @@
 package com.example.nedusoftware.myapplication;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
@@ -13,6 +15,7 @@ import java.util.List;
 public class download extends AppCompatActivity {
     private ListView mListView;
     private List<Bean> mDatas;
+    private Button button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +25,21 @@ public class download extends AppCompatActivity {
         initDatas();
         initView();
     }
+    public void launchAppDetail(String appPkg,String marketPkg){
+        try{
+            if (TextUtils.isEmpty(appPkg)) return;;
+
+            Uri uri= Uri.parse("market://details?id="+appPkg);
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            if (!TextUtils.isEmpty(marketPkg)) {
+                intent.setPackage(marketPkg);
+            }
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        } catch (Exception e) {
+            e.printStackTrace();
+        };
+    }
 
     private void initView() {
         mListView = (ListView) findViewById(R.id.id_listView);
@@ -29,22 +47,35 @@ public class download extends AppCompatActivity {
         // mListView.setAdapter(mAdapterWithCommonViewHolder);
         mListView.setAdapter(new CommonAdapter<Bean>(download.this, mDatas, R.layout.item_download) {
 
-                @Override
-                public void convert(ViewHolder holder, final Bean bean) {
+            @Override
+            public void convert(ViewHolder holder, final Bean bean) {
                 holder.setImageResource(R.id.id_icon,bean.getIcon())
                         .setText(R.id.id_name, bean.getName())
                         .setText(R.id.id_mark, bean.getMark())
                         .setText(R.id.id_mbs, bean.getMbs())
                         .setText(R.id.id_num, bean.getNum())
                         .setText(R.id.id_des, bean.getDes());
-                final Button button=holder.getView(R.id.id_button);
-                    button.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            Intent intent =new Intent(download.this,sceneryActivity.class);
+                final Button button=holder.getView(R.id.id_button1);
+                button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                            /*Intent intent =new Intent(download.this,sceneryActivity.class);
+                            startActivity(intent);*/
+
+                        //这里开始执行一个应用市场跳转逻辑，默认this为Context上下文对象
+                        Intent intent = new Intent(Intent.ACTION_VIEW);
+                        intent.setData(Uri.parse("market://details?id=" + getPackageName())); //跳转到应用市场，非Google Play市场一般情况也实现了这个接口
+//存在手机里没安装应用市场的情况，跳转会包异常，做一个接收判断
+                        if (intent.resolveActivity(getPackageManager()) != null) { //可以接收
                             startActivity(intent);
+                        } else { //没有应用市场，我们通过浏览器跳转到Google Play
+                            intent.setData(Uri.parse("https://play.google.com/store/apps/details?id=" + getPackageName()));
                         }
-                    });
+                        Uri.parse("market://search?q=pub:Author Name"); //跳转到商店搜索界面，并搜索开发者姓名
+                        Uri.parse("market://search?q=Keyword"); //跳转到商店搜索界面，并搜索关键词
+
+                    }
+                });
             }
         });
     }
