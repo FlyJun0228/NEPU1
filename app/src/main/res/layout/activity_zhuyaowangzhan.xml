@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    tools:context="com.example.nedusoftware.myapplication.Zhuyaowangzhan">
+    <LinearLayout
+
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+         android:background="@drawable/log"
+            android:gravity="center"
+            android:textSize="20dp"
+            android:layout_weight="2"
+            android:textColor="#123456"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+        <TextView
+            android:autoLink="all"
+            android:textColor="#123456"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:text="http://www.nedu.edu.cn/"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+<LinearLayout
+    android:layout_weight="1"
+ android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:gravity="center"
+        android:textSize="20dp"
+        android:layout_weight="2"
+    android:background="@drawable/yaxinda"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:autoLink="all"
+        android:gravity="center"
+        android:text="http://202.198.8.151/jasinda/login/index.jsp" />
+</LinearLayout>
+    <LinearLayout
+
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+
+            android:textColor="#070bfd"
+            android:background="@drawable/jiaowuchuu"
+            android:gravity="center"
+            android:textSize="20dp"
+            android:layout_weight="2"
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+        <TextView
+            android:autoLink="all"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:text="http://jwc.nedu.edu.cn/"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:textColor="#123456"
+            android:background="@drawable/pigai"
+            android:gravity="center"
+            android:textSize="20dp"
+            android:layout_weight="2"
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:autoLink="all"
+            android:gravity="center"
+            android:text="www.pigai.org" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:background="@drawable/shuzihua"
+            android:gravity="center"
+            android:textSize="20dp"
+            android:layout_weight="2"
+            android:textColor="#fafa06"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+        <TextView
+            android:autoLink="all"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:text="http://nedu.fy.chaoxing.com/portal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
+</LinearLayout>
