@@ -28,7 +28,7 @@
         <item name="android:padding">2dp</item>
         <item name="android:textColor">#ffffff</item>
         <item name="android:textSize">12sp</item>
-        <item name="android:background">#bfbfbf</item>
+        <item name="android:background">#f4efef</item>
     </style>
 
 

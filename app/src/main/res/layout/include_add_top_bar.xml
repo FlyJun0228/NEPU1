@@ -3,23 +3,24 @@
     android:id="@+id/layout_action"
     android:layout_width="match_parent"
     android:layout_height="@dimen/base_action_bar_height"
-    android:background="#f90c38fa"
+    android:background="#f90d09f4"
     android:orientation="vertical" >
 
     <Button
         android:id="@+id/btn_back"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
         android:layout_marginLeft="10dp"
-        android:background="@drawable/btn_back_selector" />
+        android:background="@drawable/back" />
 
     <TextView
+        android:textColor="#0e0e0e"
         android:id="@+id/tv_add"
         style="@style/Smile.TextView._White"
         android:layout_centerInParent="true"
-        android:text="Lost"
+        android:text="丢失"
         android:textSize="22sp" />
 
     <Button
@@ -29,6 +30,6 @@
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_marginRight="10dp"
-        android:background="@drawable/btn_true_selector" />
+        android:background="@drawable/sure" />
 
 </RelativeLayout>

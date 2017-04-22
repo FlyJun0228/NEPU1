@@ -16,10 +16,11 @@
         android:layout_weight="1"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    <fragment
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/activity_youcelan_fragment"
-        android:name="com.example.nedusoftware.myapplication.YoucelanFragment"/>
+
+        <fragment
+            android:id="@+id/activity_youcelan_fragment"
+            android:name="com.example.nedusoftware.myapplication.YoucelanFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
     </FrameLayout>
 </LinearLayout>

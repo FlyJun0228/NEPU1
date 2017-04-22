@@ -6,13 +6,14 @@
     android:orientation="vertical" >
 
     <Button
+        android:textColor="#0e0e0e"
         android:id="@+id/layout_found"
         style="@style/Smile.TextView._Black"
         android:layout_width="match_parent"
-        android:background="@drawable/base_pop_bg_selector"
+        android:background="#0606f9"
         android:padding = "10dp"
         android:gravity="center"
-        android:text="@string/found" />
+        android:text="已找到" />
 
     <View
         android:layout_width="match_parent"
@@ -21,12 +22,13 @@
     </View>
 
     <Button
+        android:textColor="#101010"
         android:id="@+id/layout_lost"
         style="@style/Smile.TextView._Black"
         android:padding="10dp"
         android:layout_width="match_parent"
-        android:background="@drawable/base_pop_bg_selector"
+        android:background="#0606f9"
         android:gravity="center"
-        android:text="@string/lost" />
+        android:text="丢失" />
 
 </LinearLayout>
