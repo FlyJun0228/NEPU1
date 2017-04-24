@@ -229,17 +229,6 @@ public class Lostfound extends BaseActivity implements View.OnClickListener,
         showView();
         BmobQuery<Lost> query = new BmobQuery<Lost>();
         query.order("-createdAt");// ����ʱ�併��
-        FindListener a=new FindListener() {
-            @Override
-            public void onSuccess(List list) {
-
-            }
-
-            @Override
-            public void onError(int i, String s) {
-
-            }
-        };
         query.findObjects(this, new FindListener<Lost>() {
 
             @Override

@@ -16,7 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".SplashActivity"
+            android:name=".kuaidi.Kd"
             android:label="掌上校园"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -47,7 +47,9 @@
         <activity android:name=".Robot" />
         <activity android:name=".Lostfound" />
         <activity android:name=".Xiangce" />
-        <activity android:name=".Zhuyaowangzhan"></activity>
+        <activity android:name=".Zhuyaowangzhan"/>
+        <activity android:name=".login.Login"/>
+        <activity android:name=".login.Register"/>
     </application>
 
 </manifest>
