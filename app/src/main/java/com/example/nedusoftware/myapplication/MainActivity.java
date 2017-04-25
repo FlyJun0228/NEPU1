@@ -54,9 +54,9 @@ public class MainActivity extends AppCompatActivity
 
         bottomNavigationBar
                 .addItem(new BottomNavigationItem(R.mipmap.ic_location_on_white_24dp, "学校").setActiveColor(R.color.orange))
-                .addItem(new BottomNavigationItem(R.mipmap.ic_find_replace_white_24dp, "组织").setActiveColor(R.color.blue))
-                .addItem(new BottomNavigationItem(R.mipmap.ic_favorite_white_24dp, "爱好").setActiveColor(R.color.green))
-                .addItem(new BottomNavigationItem(R.mipmap.ic_book_white_24dp, "生活").setActiveColor(R.color.blue))
+                .addItem(new BottomNavigationItem(R.mipmap.ic_find_replace_white_24dp, "组织").setActiveColor(R.color.colorAccent))
+                .addItem(new BottomNavigationItem(R.mipmap.ic_favorite_white_24dp, "爱好").setActiveColor(R.color.cadetblue))
+                .addItem(new BottomNavigationItem(R.mipmap.ic_book_white_24dp, "生活").setActiveColor(R.color.green_1))
                 .setFirstSelectedPosition(lastSelectedPosition )
                 .initialise();
         bottomNavigationBar.setTabSelectedListener(this);
