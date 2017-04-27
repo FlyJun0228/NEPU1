@@ -38,9 +38,10 @@
         <activity android:name=".Lostfound" />
         <activity android:name=".Xiangce" />
         <activity android:name=".Zhuyaowangzhan" />
-        <activity android:name=".login.Login"/>
-        <activity android:name=".login.Register" />
+        <activity android:name=".users.Login"/>
+        <activity android:name=".users.Register" />
         <activity android:name=".kuaidi.Kd"/>
+        <activity android:name=".users.Users"/>
     </application>
 
 </manifest>

@@ -3,6 +3,7 @@ package com.example.nedusoftware.myapplication;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -16,7 +17,8 @@ import android.view.MenuItem;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
-import com.example.nedusoftware.myapplication.login.Login;
+import com.example.nedusoftware.myapplication.users.Login;
+import com.example.nedusoftware.myapplication.users.Users;
 
 /**
  *
@@ -31,6 +33,7 @@ public class MainActivity extends AppCompatActivity
     private FindFragment mFindFragment;
     private FavoritesFragment mFavoritesFragment;
     private BookFragment mBookFragment;
+    private Boolean isuser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +64,9 @@ public class MainActivity extends AppCompatActivity
                 .initialise();
         bottomNavigationBar.setTabSelectedListener(this);
         setDefaultFragment();
+
+        SharedPreferences pref=getSharedPreferences("userdata",MODE_PRIVATE);
+        isuser=pref.getBoolean("isuser",false);
     }
 
     @Override
@@ -102,8 +108,14 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
-            Intent intent=new Intent(MainActivity.this, Login.class);
-            startActivity(intent);
+            if(isuser){
+                Intent intent = new Intent(MainActivity.this, Users.class);
+                startActivity(intent);
+            }
+            else {
+                Intent intent = new Intent(MainActivity.this, Login.class);
+                startActivity(intent);
+            }
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_share) {
