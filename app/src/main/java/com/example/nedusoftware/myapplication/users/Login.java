@@ -27,6 +27,7 @@ public class Login extends BaseActivity implements View.OnClickListener{
     private Button btn_register;
     private EditText et_id;
     private EditText et_psd;
+    SharedPreferences.Editor editor;
     @Override
     public void initViews() {
         btn_login = (Button) findViewById(R.id.btn_login_in);
@@ -81,6 +82,9 @@ public class Login extends BaseActivity implements View.OnClickListener{
                             if (user.getUserPassword().equals(psd)) {
                                 Toast.makeText(Login.this, "登陆成功", Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(Login.this, MainActivity.class);
+                                editor=getSharedPreferences("userdata",MODE_PRIVATE).edit();
+                                editor.putString("userName",user.getUserName());
+                                editor.putString("userSex",user.getUserSex());
                                 addusers();
                                 startActivity(intent);
                                 Login.this.finish();
@@ -106,7 +110,6 @@ public class Login extends BaseActivity implements View.OnClickListener{
      * 保存用户信息到本地
      */
     private void addusers(){
-        SharedPreferences.Editor editor=getSharedPreferences("userdata",MODE_PRIVATE).edit();
         editor.putString("userId",et_id.getText().toString());
         editor.putString("userPassword",et_id.getText().toString());
         editor.putBoolean("isuser",true);

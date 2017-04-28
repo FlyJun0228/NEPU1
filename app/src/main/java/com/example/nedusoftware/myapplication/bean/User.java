@@ -11,6 +11,7 @@ public class User extends BmobObject {
     private String userId;
     private String userPassword;
     private String userName;
+    private String userSex;
     private BmobFile icon;
 
     public String getUserId() {
@@ -43,5 +44,13 @@ public class User extends BmobObject {
 
     public void setIcon(BmobFile icon) {
         this.icon = icon;
+    }
+
+    public String getUserSex() {
+        return userSex;
+    }
+
+    public void setUserSex(String userSex) {
+        this.userSex = userSex;
     }
 }
