@@ -2,6 +2,7 @@ package com.example.nedusoftware.myapplication.users;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -85,6 +86,13 @@ public class Login extends BaseActivity implements View.OnClickListener{
                                 editor=getSharedPreferences("userdata",MODE_PRIVATE).edit();
                                 editor.putString("userName",user.getUserName());
                                 editor.putString("userSex",user.getUserSex());
+                                editor.putString("objectId",user.getObjectId());
+                                Log.e(TAG, "onSuccess: "+user.getObjectId());
+                                if(user.getIcon()!=null){
+                                    editor.putBoolean("userIcon",true);
+                                }else {
+                                    editor.putBoolean("userIcon",false);
+                                }
                                 addusers();
                                 startActivity(intent);
                                 Login.this.finish();

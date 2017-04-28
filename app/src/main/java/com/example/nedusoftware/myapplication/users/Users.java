@@ -18,13 +18,19 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.nedusoftware.myapplication.MainActivity;
 import com.example.nedusoftware.myapplication.R;
+import com.example.nedusoftware.myapplication.bean.User;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+
+import cn.bmob.v3.datatype.BmobFile;
+import cn.bmob.v3.listener.UpdateListener;
+import cn.bmob.v3.listener.UploadFileListener;
 
 /**
  * Created by NEDUsoftware on 2017/4/27.
@@ -38,10 +44,12 @@ public class Users extends Activity implements View.OnClickListener {
     private TextView t_sex;
     private ImageView imageView;
     private String userid;
+    private String iconpath;
+    private String objecetId;
     private Button button;
     private File icon;
     private File img;
-    private String iconpath;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -71,6 +79,7 @@ public class Users extends Activity implements View.OnClickListener {
     private void initData() {
         SharedPreferences pref = getSharedPreferences("userdata", MODE_PRIVATE);
         userid = pref.getString("userId", "");
+        objecetId=pref.getString("objectId","");
         t_name.setText(pref.getString("userName", ""));
         t_sex.setText(pref.getString("userSex", ""));
         iconpath=this.getFilesDir() +"/"+ userid + ".jpg";
@@ -79,8 +88,13 @@ public class Users extends Activity implements View.OnClickListener {
             Bitmap bitmap = BitmapFactory.decodeFile(iconpath);
             imageView.setImageBitmap(bitmap);
         } else {
-            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.it);
-            imageView.setImageBitmap(bitmap);
+            if (pref.getBoolean("userIcon",false)){
+                Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.it);
+                imageView.setImageBitmap(bitmap);
+            }else {
+
+            }
+
         }
     }
 
@@ -160,10 +174,45 @@ public class Users extends Activity implements View.OnClickListener {
             try {
                 FileOutputStream fos=new FileOutputStream(iconpath);
                 photo.compress(Bitmap.CompressFormat.JPEG,100,fos);
+                uploadBitmap();
 
             } catch (FileNotFoundException e){
                 e.printStackTrace();
             }
         }
+    }
+    public void uploadBitmap(){
+        final BmobFile bmobFile=new BmobFile(new File(iconpath));
+        Log.e("11", "uploadBitmap: "+bmobFile );
+        bmobFile.uploadblock(this, new UploadFileListener() {
+            @Override
+            public void onProgress(Integer integer) {
+
+            }
+
+            @Override
+            public void onSuccess() {
+                Toast.makeText(Users.this,"上传成功！",Toast.LENGTH_SHORT).show();
+                Log.e("2", "chenggong");
+                User user=new User();
+                user.setIcon(bmobFile);
+                user.update(Users.this, objecetId, new UpdateListener() {
+                    @Override
+                    public void onSuccess() {
+
+                    }
+
+                    @Override
+                    public void onFailure(int i, String s) {
+
+                    }
+                });
+            }
+
+            @Override
+            public void onFailure(int i, String s) {
+                Log.e("2222", "onFailure: "+i+s );
+            }
+        });
     }
 }

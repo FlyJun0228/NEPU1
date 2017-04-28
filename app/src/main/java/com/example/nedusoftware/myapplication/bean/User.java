@@ -53,4 +53,6 @@ public class User extends BmobObject {
     public void setUserSex(String userSex) {
         this.userSex = userSex;
     }
+
+
 }
