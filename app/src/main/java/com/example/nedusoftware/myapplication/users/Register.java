@@ -17,6 +17,7 @@ import java.util.List;
 
 import cn.bmob.v3.Bmob;
 import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.SaveListener;
 
@@ -69,39 +70,35 @@ public class Register extends Activity implements View.OnClickListener{
             psd = md5.getmd5(et_register_password.getText().toString());
             BmobQuery<User> bmobQuery = new BmobQuery<User>();
             bmobQuery.addWhereEqualTo("userId", et_register_id.getText());
-            bmobQuery.findObjects(this,new FindListener<User>() {
+            bmobQuery.findObjects(new FindListener<User>() {
                 @Override
-                public void onSuccess(List<User> list) {
-                    if (list.size() == 0) {
-                        User user = new User();
-                        user.setUserId(et_register_id.getText().toString());
-                        user.setUserPassword(psd);
-                        user.setUserName(et_register_name.getText().toString());
-                        user.save(Register.this,new SaveListener() {
-                            @Override
-                            public void onSuccess() {
-                                Toast.makeText(Register.this, "添加成功", Toast.LENGTH_LONG).show();
-                                Intent intent=new Intent(Register.this,Login.class);
-                                startActivity(intent);
-                                Register.this.finish();
-                            }
+                public void done(List<User> list, BmobException e) {
+                    if (e==null){
+                        if (list.size() == 0) {
+                            User user = new User();
+                            user.setUserId(et_register_id.getText().toString());
+                            user.setUserPassword(psd);
+                            user.setUserName(et_register_name.getText().toString());
+                            user.save(new SaveListener<String>() {
+                                @Override
+                                public void done(String s, BmobException e) {
+                                    if (e==null){
+                                        Toast.makeText(Register.this, "添加成功", Toast.LENGTH_LONG).show();
+                                        Intent intent=new Intent(Register.this,Login.class);
+                                        startActivity(intent);
+                                        Register.this.finish();
+                                    }else {
 
-                            @Override
-                            public void onFailure(int i, String s) {
-
-                            }
-
-                        });
-                    } else {
-                        Toast.makeText(Register.this, "该用户已存在", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+                        } else {
+                            Toast.makeText(Register.this, "该用户已存在", Toast.LENGTH_SHORT).show();
+                        }
+                    }else {
+                        Toast.makeText(Register.this, "连接服务器失败", Toast.LENGTH_SHORT).show();
                     }
                 }
-
-                @Override
-                public void onError(int i, String s) {
-                    Toast.makeText(Register.this, "连接服务器失败", Toast.LENGTH_SHORT).show();
-                }
-
             });
         }
     }
