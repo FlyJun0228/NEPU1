@@ -2,20 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.nedusoftware.myapplication">
 
-    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-    <uses-permission android:name="android.permission.USE_FINGERPRINT" />
-    <uses-permission android:name="android.permission.MANAGE_DOCUMENTS" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.BROADCAST_STICKY" />
-    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -23,11 +15,6 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        <meta-data
-            android:name="com.baidu.lbsapi.API_KEY"
-            android:value="lBSG74ln9eKnXrKnBC5iec6QK8FQDeXM" />
-
         <activity
             android:name=".SplashActivity"
             android:label="掌上校园"
@@ -51,14 +38,9 @@
         <activity android:name=".Lostfound" />
         <activity android:name=".Xiangce" />
         <activity android:name=".Zhuyaowangzhan" />
-        <activity android:name=".login.Login" />
+        <activity android:name=".login.Login"/>
         <activity android:name=".login.Register" />
-        <activity android:name=".kuaidi.Kd" />
-        <activity android:name=".AddLove" />
-        <activity android:name=".Loction" />
-        <activity android:name=".Love" />
-        <activity android:name=".MyLocation" />
-
+        <activity android:name=".kuaidi.Kd"/>
     </application>
 
 </manifest>
