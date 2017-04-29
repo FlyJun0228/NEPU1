@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_action"
+    android:layout_width="match_parent"
+    android:layout_height="70dp"
+    android:background="@drawable/biaobaibg"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/layout_all"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="horizontal" >
+<TextView
+    android:textColor="#ff000000"
+    android:textSize="40dp"
+    android:text="表   白   墙"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_add"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/xintianjia" />
+
+</RelativeLayout>

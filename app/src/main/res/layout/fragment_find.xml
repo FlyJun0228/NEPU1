@@ -1,54 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 android:orientation="vertical"
+
 android:layout_width="match_parent"
-android:layout_height="match_parent"
-    >
-<FrameLayout
-    android:layout_weight="1"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+android:layout_height="match_parent">
+<Button
+    android:text="校园"
+    android:id="@+id/location"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" />
     <Button
-        android:textColor="#02123456"
-        android:text="http://54shine.neepu.edu.cn/"
-        android:autoLink="all"
-        android:background="@drawable/logo"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-</FrameLayout>
-
-    <FrameLayout
-        android:layout_weight="1"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <Button
-            android:background="@drawable/ranjian"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </FrameLayout>
-    <FrameLayout
-        android:layout_weight="1"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <Button
-            android:autoLink="all"
-            android:textColor="#00123456"
-            android:text="http://www2.neepu.edu.cn/"
-            android:background="@drawable/dierpindao"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </FrameLayout>
-    <FrameLayout
-        android:layout_weight="1"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <Button
-            android:autoLink="all"
-            android:textColor="#01123456"
-            android:text="http://xcb.neepu.edu.cn/party_office/more/more.php?type=typesix"
-            android:background="@drawable/dangwei"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </FrameLayout>
-
+        android:text="我的位置"
+        android:id="@+id/mylocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 </LinearLayout>

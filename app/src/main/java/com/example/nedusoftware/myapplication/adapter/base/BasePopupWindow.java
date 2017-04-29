@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.widget.PopupWindow;
 
+import com.example.nedusoftware.myapplication.Love;
+
 /** �Զ���popWindow
   * @ClassName: BasePopupWindow
   * @Description: TODO
@@ -97,7 +99,9 @@ public abstract class BasePopupWindow extends PopupWindow {
 		mOnSubmitClickListener = l;
 	}
 
-	public interface onSubmitClickListener {
+    public abstract void setOnPopupItemClickListner(Love love);
+
+    public interface onSubmitClickListener {
 		void onClick();
 	}
 

@@ -12,14 +12,7 @@ import com.example.nedusoftware.myapplication.bean.Lost;
 
 import cn.bmob.v3.listener.SaveListener;
 
-/**
- * ���ʧ��/������Ϣ����
- * 
- * @ClassName: AddActivity
- * @Description: TODO
- * @author smile
- * @date 2014-5-21 ����11:41:06
- */
+
 public class AddActivity extends BaseActivity implements OnClickListener {
 
 	EditText edit_title, edit_photo, edit_describe;
@@ -140,6 +133,7 @@ public class AddActivity extends BaseActivity implements OnClickListener {
 	}
 	
 	private void addFound(){
+
 		Found found = new Found();
 		found.setDescribe(describe);
 		found.setPhone(photo);

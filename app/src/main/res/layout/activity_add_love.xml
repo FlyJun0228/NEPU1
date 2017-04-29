@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#c1fa58ea"
+    tools:context="com.example.nedusoftware.myapplication.AddLove">
+    <include layout="@layout/addlovebar" />
+
+
+    <EditText
+        android:id="@+id/edit_describe"
+        android:hint="把你心里想说的话，说出来吧"
+        android:background="@drawable/input"
+        android:paddingLeft="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"
+        android:minLines="4"
+        />
+</LinearLayout>

@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity
     int lastSelectedPosition = 0;
     private String TAG = MainActivity.class.getSimpleName();
     private LocationFragment mLocationFragment;
-    private FindFragment mFindFragment;
+    private Main2Activity mFindFragment;
     private FavoritesFragment mFavoritesFragment;
     private BookFragment mBookFragment;
 
@@ -147,7 +147,7 @@ public class MainActivity extends AppCompatActivity
                 break;
             case 1:
                 if (mFindFragment == null) {
-                    mFindFragment = FindFragment.newInstance("发现");
+                    mFindFragment = Main2Activity.newInstance("发现");
                 }
                 transaction.replace(R.id.tb, mFindFragment);
                 break;

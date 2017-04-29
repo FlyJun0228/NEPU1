@@ -7,6 +7,7 @@ import android.view.View.OnClickListener;
 import android.widget.TextView;
 
 import com.example.nedusoftware.myapplication.Lostfound;
+import com.example.nedusoftware.myapplication.Love;
 import com.example.nedusoftware.myapplication.R;
 import com.example.nedusoftware.myapplication.i.IPopupItemClick;
 
@@ -46,6 +47,11 @@ public class EditPopupWindow extends BasePopupWindow implements OnClickListener 
 
 	@Override
 	public void init() {
+
+	}
+
+	@Override
+	public void setOnPopupItemClickListner(Love love) {
 
 	}
 

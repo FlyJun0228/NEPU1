@@ -58,6 +58,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
                     <Button
+                        android:id="@+id/biaobai"
                         android:layout_gravity="center"
                         android:layout_width="62dp"
                         android:layout_height="63dp"
@@ -220,11 +221,11 @@
                     android:layout_height="match_parent">
                     <TextView
                         android:gravity="center"
-                        android:textSize="20dp"
+                        android:textSize="15dp"
                         android:textStyle="bold"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:text="兼职平台"/>
+                        android:text="期待更多。。"/>
                 </FrameLayout>
             </LinearLayout>
         </LinearLayout>

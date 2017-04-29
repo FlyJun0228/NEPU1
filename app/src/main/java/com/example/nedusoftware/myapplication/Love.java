@@ -2,7 +2,6 @@ package com.example.nedusoftware.myapplication;
 
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -14,12 +13,12 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.nedusoftware.myapplication.adapter.BaseAdapterHelper;
 import com.example.nedusoftware.myapplication.adapter.QuickAdapter;
 import com.example.nedusoftware.myapplication.adapter.base.EditPopupWindow;
-import com.example.nedusoftware.myapplication.bean.Found;
-import com.example.nedusoftware.myapplication.bean.Lost;
+import com.example.nedusoftware.myapplication.bean.lov;
 import com.example.nedusoftware.myapplication.config.Constants;
 import com.example.nedusoftware.myapplication.i.IPopupItemClick;
 
@@ -33,7 +32,7 @@ import static com.example.nedusoftware.myapplication.R.id.tv_describe;
 import static com.example.nedusoftware.myapplication.R.id.tv_photo;
 import static com.example.nedusoftware.myapplication.R.id.tv_title;
 
-public class Lostfound extends BaseActivity implements View.OnClickListener,
+public class Love extends BaseActivity implements View.OnClickListener,
         IPopupItemClick, AdapterView.OnItemLongClickListener {
 
     RelativeLayout layout_action;//
@@ -42,9 +41,7 @@ public class Lostfound extends BaseActivity implements View.OnClickListener,
     ListView listview;
     Button btn_add;
 
-    protected QuickAdapter<Lost> LostAdapter;// ʧ��
-
-    protected QuickAdapter<Found> FoundAdapter;// ����
+    protected QuickAdapter<lov> LostAdapter;// ʧ��
 
     private Button layout_found;
     private Button layout_lost;
@@ -57,7 +54,8 @@ public class Lostfound extends BaseActivity implements View.OnClickListener,
     @Override
     public void setContentView() {
         // TODO Auto-generated method stub
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_love);
+        Toast.makeText(Love.this,"温馨小提示，表白一旦发出就不能被删除哦~~",Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -67,15 +65,13 @@ public class Lostfound extends BaseActivity implements View.OnClickListener,
         layout_no = (LinearLayout) findViewById(R.id.layout_no);
         tv_no = (TextView) findViewById(R.id.tv_no);
 
-        layout_action = (RelativeLayout) findViewById(R.id.layout_action);
         layout_all = (LinearLayout) findViewById(R.id.layout_all);
         // Ĭ����ʧ�����
         tv_lost = (TextView) findViewById(R.id.tv_lost);
-        tv_lost.setTag("Lost");
         listview = (ListView) findViewById(R.id.list_lost);
         btn_add = (Button) findViewById(R.id.btn_add);
         // ��ʼ����������
-        initEditPop();
+
     }
 
     @Override
@@ -92,13 +88,11 @@ public class Lostfound extends BaseActivity implements View.OnClickListener,
         if (v == layout_all) {
             showListPop();
         } else if (v == btn_add) {
-            Intent intent = new Intent(this, AddActivity.class);
-            intent.putExtra("from", tv_lost.getTag().toString());
+            Intent intent = new Intent(this, AddLove.class);
             startActivityForResult(intent, Constants.REQUESTCODE_ADD);
         } else if (v == layout_found) {
             changeTextView(v);
             morePop.dismiss();
-            queryFounds();
         } else if (v == layout_lost) {
             changeTextView(v);
             morePop.dismiss();
@@ -110,9 +104,9 @@ public class Lostfound extends BaseActivity implements View.OnClickListener,
     public void initData() {
         // TODO Auto-generated method stub
         if (LostAdapter == null) {
-            LostAdapter = new QuickAdapter<Lost>(this, R.layout.item_list) {
+            LostAdapter = new QuickAdapter<lov>(this, R.layout.loveitem) {
                 @Override
-                protected void convert(BaseAdapterHelper helper, Lost lost) {
+                protected void convert(BaseAdapterHelper helper, lov lost) {
                     helper.setText(tv_title, lost.getTitle())
                             .setText(tv_describe, lost.getDescribe())
                             .setText(tv_photo, lost.getPhone());
@@ -120,16 +114,6 @@ public class Lostfound extends BaseActivity implements View.OnClickListener,
             };
         }
 
-        if (FoundAdapter == null) {
-            FoundAdapter = new QuickAdapter<Found>(this, R.layout.item_list) {
-                @Override
-                protected void convert(BaseAdapterHelper helper, Found found) {
-                    helper.setText(tv_title, found.getTitle())
-                            .setText(tv_describe, found.getDescribe())
-                            .setText(tv_photo, found.getPhone());
-                }
-            };
-        }
         listview.setAdapter(LostAdapter);
         // Ĭ�ϼ���ʧ�����
         queryLosts();
@@ -172,30 +156,11 @@ public class Lostfound extends BaseActivity implements View.OnClickListener,
         morePop.setFocusable(true);
         morePop.setOutsideTouchable(true);
         morePop.setBackgroundDrawable(new BitmapDrawable());
-        // ����Ч�� �Ӷ�������
         morePop.setAnimationStyle(R.style.MenuPop);
-        morePop.showAsDropDown(layout_action, 0, -dip2px(this, 2.0F));
-    }
-
-    private void initEditPop() {
-        mPopupWindow = new EditPopupWindow(this, 200, 48);
-        mPopupWindow.setOnPopupItemClickListner(this);
     }
 
     EditPopupWindow mPopupWindow;
     int position;
-
-    @Override
-    public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int arg2,
-                                   long arg3) {
-        // TODO Auto-generated method stub
-        position = arg2;
-        int[] location = new int[2];
-        arg1.getLocationOnScreen(location);
-        mPopupWindow.showAtLocation(arg1, Gravity.RIGHT | Gravity.TOP,
-                location[0], getStateBar() + location[1]);
-        return false;
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -206,12 +171,6 @@ public class Lostfound extends BaseActivity implements View.OnClickListener,
         }
         switch (requestCode) {
             case Constants.REQUESTCODE_ADD:// ��ӳɹ�֮��Ļص�
-                String tag = tv_lost.getTag().toString();
-                if (tag.equals("Lost")) {
-                    queryLosts();
-                } else {
-                    queryFounds();
-                }
                 break;
         }
     }
@@ -224,15 +183,14 @@ public class Lostfound extends BaseActivity implements View.OnClickListener,
      */
     private void queryLosts() {
         showView();
-        BmobQuery<Lost> query = new BmobQuery<Lost>();
+        BmobQuery<lov> query = new BmobQuery<lov>();
         query.order("-createdAt");// ����ʱ�併��
-        query.findObjects(this, new FindListener<Lost>() {
+        query.findObjects(this, new FindListener<lov>() {
 
             @Override
-            public void onSuccess(List<Lost> losts) {
+            public void onSuccess(List<lov> losts) {
                 // TODO Auto-generated method stub
                 LostAdapter.clear();
-                FoundAdapter.clear();
                 if (losts == null || losts.size() == 0) {
                     showErrorView(0);
                     LostAdapter.notifyDataSetChanged();
@@ -251,34 +209,6 @@ public class Lostfound extends BaseActivity implements View.OnClickListener,
         });
     }
 
-    public void queryFounds() {
-        showView();
-        BmobQuery<Found> query = new BmobQuery<Found>();
-        query.order("-createdAt");// ����ʱ�併��
-        query.findObjects(this, new FindListener<Found>() {
-
-            @Override
-            public void onSuccess(List<Found> arg0) {
-                // TODO Auto-generated method stub
-                LostAdapter.clear();
-                FoundAdapter.clear();
-                if (arg0 == null || arg0.size() == 0) {
-                    showErrorView(1);
-                    FoundAdapter.notifyDataSetChanged();
-                    return;
-                }
-                FoundAdapter.addAll(arg0);
-                listview.setAdapter(FoundAdapter);
-                progress.setVisibility(View.GONE);
-            }
-
-            @Override
-            public void onError(int code, String arg0) {
-                // TODO Auto-generated method stub
-                showErrorView(1);
-            }
-        });
-    }
 
     /**
      * ����������������ʱ����ʾ�Ľ��� showErrorView
@@ -315,9 +245,6 @@ public class Lostfound extends BaseActivity implements View.OnClickListener,
             describe = LostAdapter.getItem(position).getDescribe();
             phone = LostAdapter.getItem(position).getPhone();
         } else {
-            title = FoundAdapter.getItem(position).getTitle();
-            describe = FoundAdapter.getItem(position).getDescribe();
-            phone = FoundAdapter.getItem(position).getPhone();
         }
         intent.putExtra("describe", describe);
         intent.putExtra("phone", phone);
@@ -333,12 +260,12 @@ public class Lostfound extends BaseActivity implements View.OnClickListener,
         if (tag.equals("Lost")) {
             deleteLost();
         } else {
-            deleteFound();
+
         }
     }
 
     private void deleteLost() {
-        Lost lost = new Lost();
+        lov lost = new lov();
         lost.setObjectId(LostAdapter.getItem(position).getObjectId());
         lost.delete(this, new DeleteListener() {
 
@@ -356,23 +283,9 @@ public class Lostfound extends BaseActivity implements View.OnClickListener,
         });
     }
 
-    private void deleteFound() {
-        Found found = new Found();
-        found.setObjectId(FoundAdapter.getItem(position).getObjectId());
-        found.delete(this, new DeleteListener() {
 
-            @Override
-            public void onSuccess() {
-                // TODO Auto-generated method stub
-                FoundAdapter.remove(position);
-            }
-
-            @Override
-            public void onFailure(int code, String arg0) {
-                // TODO Auto-generated method stub
-
-            }
-        });
+    @Override
+    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+        return false;
     }
-
 }

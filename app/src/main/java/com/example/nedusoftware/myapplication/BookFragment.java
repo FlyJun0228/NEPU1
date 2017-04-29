@@ -16,6 +16,7 @@ import com.example.nedusoftware.myapplication.kuaidi.Kd;
  */
 public class BookFragment extends Fragment {
 
+    private Button mBtnBiaobai;
     private Button mRobotBtn;
     private Button mLostBtn;
     private Button mXiangce;
@@ -48,6 +49,15 @@ public class BookFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity().getApplicationContext(), Lostfound.class);
+                startActivity(intent);
+            }
+        });
+        mBtnBiaobai = (Button) rootView.findViewById(R.id.biaobai);
+        mBtnBiaobai.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity().getApplicationContext(), Love.class);
                 startActivity(intent);
             }
         });
