@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/lin_layout"
     android:layout_width="match_parent"
     android:layout_height="@dimen/nav_header_height"
     android:background="@drawable/fengmian"
@@ -14,11 +15,11 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="55dp"
-        android:layout_height="52dp"
+        android:layout_width="85dp"
+        android:layout_height="82dp"
         android:layout_gravity="center"
-        android:background="@drawable/it"
-        android:paddingTop="@dimen/nav_header_vertical_spacing" />
+        android:paddingTop="@dimen/nav_header_vertical_spacing"
+        android:layout_weight="0.25" />
 
     <TextView
         android:gravity="center"

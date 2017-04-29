@@ -26,8 +26,9 @@ import com.example.nedusoftware.myapplication.i.IPopupItemClick;
 import java.util.List;
 
 import cn.bmob.v3.BmobQuery;
-import cn.bmob.v3.listener.DeleteListener;
+import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
+import cn.bmob.v3.listener.UpdateListener;
 
 import static com.example.nedusoftware.myapplication.R.id.tv_describe;
 import static com.example.nedusoftware.myapplication.R.id.tv_photo;
@@ -229,27 +230,24 @@ public class Lostfound extends BaseActivity implements View.OnClickListener,
         showView();
         BmobQuery<Lost> query = new BmobQuery<Lost>();
         query.order("-createdAt");// ����ʱ�併��
-        query.findObjects(this, new FindListener<Lost>() {
-
+        query.findObjects(new FindListener<Lost>() {
             @Override
-            public void onSuccess(List<Lost> losts) {
-                // TODO Auto-generated method stub
-                LostAdapter.clear();
-                FoundAdapter.clear();
-                if (losts == null || losts.size() == 0) {
+            public void done(List<Lost> losts, BmobException e) {
+                if (e == null) {
+                    // TODO Auto-generated method stub
+                    LostAdapter.clear();
+                    FoundAdapter.clear();
+                    if (losts == null || losts.size() == 0) {
+                        showErrorView(0);
+                        LostAdapter.notifyDataSetChanged();
+                        return;
+                    }
+                    progress.setVisibility(View.GONE);
+                    LostAdapter.addAll(losts);
+                    listview.setAdapter(LostAdapter);
+                } else {
                     showErrorView(0);
-                    LostAdapter.notifyDataSetChanged();
-                    return;
                 }
-                progress.setVisibility(View.GONE);
-                LostAdapter.addAll(losts);
-                listview.setAdapter(LostAdapter);
-            }
-
-            @Override
-            public void onError(int code, String arg0) {
-                // TODO Auto-generated method stub
-                showErrorView(0);
             }
         });
     }
@@ -258,27 +256,25 @@ public class Lostfound extends BaseActivity implements View.OnClickListener,
         showView();
         BmobQuery<Found> query = new BmobQuery<Found>();
         query.order("-createdAt");// ����ʱ�併��
-        query.findObjects(this, new FindListener<Found>() {
+        query.findObjects(new FindListener<Found>() {
 
             @Override
-            public void onSuccess(List<Found> arg0) {
-                // TODO Auto-generated method stub
-                LostAdapter.clear();
-                FoundAdapter.clear();
-                if (arg0 == null || arg0.size() == 0) {
+            public void done(List<Found> arg0, BmobException e) {
+                if (e == null) {
+                    // TODO Auto-generated method stub
+                    LostAdapter.clear();
+                    FoundAdapter.clear();
+                    if (arg0 == null || arg0.size() == 0) {
+                        showErrorView(1);
+                        FoundAdapter.notifyDataSetChanged();
+                        return;
+                    }
+                    FoundAdapter.addAll(arg0);
+                    listview.setAdapter(FoundAdapter);
+                    progress.setVisibility(View.GONE);
+                } else {
                     showErrorView(1);
-                    FoundAdapter.notifyDataSetChanged();
-                    return;
                 }
-                FoundAdapter.addAll(arg0);
-                listview.setAdapter(FoundAdapter);
-                progress.setVisibility(View.GONE);
-            }
-
-            @Override
-            public void onError(int code, String arg0) {
-                // TODO Auto-generated method stub
-                showErrorView(1);
             }
         });
     }
@@ -343,18 +339,13 @@ public class Lostfound extends BaseActivity implements View.OnClickListener,
     private void deleteLost() {
         Lost lost = new Lost();
         lost.setObjectId(LostAdapter.getItem(position).getObjectId());
-        lost.delete(this, new DeleteListener() {
+        lost.delete(new UpdateListener() {
 
             @Override
-            public void onSuccess() {
-                // TODO Auto-generated method stub
-                LostAdapter.remove(position);
-            }
-
-            @Override
-            public void onFailure(int code, String arg0) {
-                // TODO Auto-generated method stub
-
+            public void done(BmobException e) {
+                if (e == null) {
+                    LostAdapter.remove(position);
+                }
             }
         });
     }
@@ -362,19 +353,15 @@ public class Lostfound extends BaseActivity implements View.OnClickListener,
     private void deleteFound() {
         Found found = new Found();
         found.setObjectId(FoundAdapter.getItem(position).getObjectId());
-        found.delete(this, new DeleteListener() {
+        found.delete(new UpdateListener() {
 
             @Override
-            public void onSuccess() {
-                // TODO Auto-generated method stub
-                FoundAdapter.remove(position);
+            public void done(BmobException e) {
+                if (e == null) {
+                    FoundAdapter.remove(position);
+                }
             }
 
-            @Override
-            public void onFailure(int code, String arg0) {
-                // TODO Auto-generated method stub
-
-            }
         });
     }
 

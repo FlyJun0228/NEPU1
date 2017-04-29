@@ -4,6 +4,8 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -12,19 +14,36 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
+import com.example.nedusoftware.myapplication.bean.User;
+import com.example.nedusoftware.myapplication.config.Constants;
 import com.example.nedusoftware.myapplication.users.Login;
 import com.example.nedusoftware.myapplication.users.Users;
+
+import java.io.File;
+import java.util.List;
+
+import cn.bmob.v3.Bmob;
+import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.datatype.BmobFile;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.DownloadFileListener;
+import cn.bmob.v3.listener.FindListener;
+import cn.bmob.v3.listener.QueryListener;
 
 /**
  *
  */
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener,BottomNavigationBar.OnTabSelectedListener  {
+        implements NavigationView.OnNavigationItemSelectedListener, BottomNavigationBar.OnTabSelectedListener {
 
     private BottomNavigationBar bottomNavigationBar;
     int lastSelectedPosition = 0;
@@ -34,11 +53,15 @@ public class MainActivity extends AppCompatActivity
     private FavoritesFragment mFavoritesFragment;
     private BookFragment mBookFragment;
     private Boolean isuser;
+    private BmobFile bmobFile;
+    private Bitmap bitmap;
+    private ImageView imageview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        Bmob.initialize(this, Constants.Bmob_APPID);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -46,7 +69,7 @@ public class MainActivity extends AppCompatActivity
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-            this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
@@ -60,13 +83,43 @@ public class MainActivity extends AppCompatActivity
                 .addItem(new BottomNavigationItem(R.mipmap.ic_find_replace_white_24dp, "组织").setActiveColor(R.color.colorAccent))
                 .addItem(new BottomNavigationItem(R.mipmap.ic_favorite_white_24dp, "爱好").setActiveColor(R.color.cadetblue))
                 .addItem(new BottomNavigationItem(R.mipmap.ic_book_white_24dp, "生活").setActiveColor(R.color.green_1))
-                .setFirstSelectedPosition(lastSelectedPosition )
+                .setFirstSelectedPosition(lastSelectedPosition)
                 .initialise();
         bottomNavigationBar.setTabSelectedListener(this);
         setDefaultFragment();
+        View headerView = navigationView.getHeaderView(0);
+        imageview = (ImageView) headerView.findViewById(R.id.imageView);
+        SharedPreferences pref = getSharedPreferences("userdata", MODE_PRIVATE);
+        isuser = pref.getBoolean("isuser", false);
+        if (isuser) {
+            if (pref.getBoolean("userIcon", false)) {
+                downloadBitmap(pref.getString("userId", ""));
+            }
+        }
+        String iconpath = getApplicationContext().getFilesDir() + "/" + pref.getString("userId", "") + ".jpg";
+        File icon = new File(iconpath);
+        if (isuser && icon.exists()) {
+            Bitmap bitmap = BitmapFactory.decodeFile(iconpath);
+            imageview.setImageBitmap(bitmap);
+        } else {
+            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.it);
+            imageview.setImageBitmap(bitmap);
+        }
+    }
 
-        SharedPreferences pref=getSharedPreferences("userdata",MODE_PRIVATE);
-        isuser=pref.getBoolean("isuser",false);
+    @Override
+    protected void onResume() {
+        super.onResume();
+        SharedPreferences pref = getSharedPreferences("userdata", MODE_PRIVATE);
+        String iconpath = getApplicationContext().getFilesDir() + "/" + pref.getString("userId", "") + ".jpg";
+        File icon = new File(iconpath);
+        if (isuser && icon.exists()) {
+            Bitmap bitmap = BitmapFactory.decodeFile(iconpath);
+            imageview.setImageBitmap(bitmap);
+        } else {
+            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.it);
+            imageview.setImageBitmap(bitmap);
+        }
     }
 
     @Override
@@ -104,15 +157,15 @@ public class MainActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
+
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
-            if(isuser){
+            if (isuser) {
                 Intent intent = new Intent(MainActivity.this, Users.class);
                 startActivity(intent);
-            }
-            else {
+            } else {
                 Intent intent = new Intent(MainActivity.this, Login.class);
                 startActivity(intent);
             }
@@ -190,6 +243,41 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onTabReselected(int position) {
 
+    }
+
+    /**
+     * 下载头像Icon by lxy
+     */
+    public void downloadBitmap(String userId) {
+        final String path = getApplicationContext().getFilesDir() + "/" + userId + ".jpg";
+        BmobQuery<User> bmobQuery = new BmobQuery<User>();
+        bmobQuery.addWhereEqualTo("userId", userId);
+        bmobQuery.findObjects(new FindListener<User>() {
+            @Override
+            public void done(List<User> list, BmobException e) {
+                if (e == null) {
+                    Log.e("11111111", "done: " + list.size());
+                    for (User user : list) {
+                        bmobFile = user.getIcon();
+                    }
+                    File savePath = new File(path);
+                    bmobFile.download(savePath, new DownloadFileListener() {
+                        @Override
+                        public void done(String s, BmobException e) {
+                            bitmap = BitmapFactory.decodeFile(path);
+                            Log.e("2222", "done: " + bmobFile + bitmap);
+
+                        }
+
+                        @Override
+                        public void onProgress(Integer integer, long l) {
+
+                        }
+                    });
+                } else {
+                }
+            }
+        });
     }
 }
 

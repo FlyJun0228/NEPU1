@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,12 +24,19 @@ import android.widget.Toast;
 import com.example.nedusoftware.myapplication.MainActivity;
 import com.example.nedusoftware.myapplication.R;
 import com.example.nedusoftware.myapplication.bean.User;
+import com.example.nedusoftware.myapplication.config.Constants;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.util.List;
 
+import cn.bmob.v3.Bmob;
+import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.datatype.BmobFile;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.DownloadFileListener;
+import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.UpdateListener;
 import cn.bmob.v3.listener.UploadFileListener;
 
@@ -40,6 +48,7 @@ public class Users extends Activity implements View.OnClickListener {
     private RelativeLayout layout_icon;
     private RelativeLayout layout_name;
     private RelativeLayout layout_sex;
+    private ProgressBar progressBar;
     private TextView t_name;
     private TextView t_sex;
     private ImageView imageView;
@@ -49,7 +58,8 @@ public class Users extends Activity implements View.OnClickListener {
     private Button button;
     private File icon;
     private File img;
-
+    private BmobFile bmobFile;
+    private Bitmap bitmap;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -58,6 +68,7 @@ public class Users extends Activity implements View.OnClickListener {
         initViews();
         initListeners();
         initData();
+        Bmob.initialize(this, Constants.Bmob_APPID);
     }
 
     private void initViews() {
@@ -68,7 +79,8 @@ public class Users extends Activity implements View.OnClickListener {
         t_sex = (TextView) findViewById(R.id.t_sex);
         imageView = (ImageView) findViewById(R.id.im_icon);
         button = (Button) findViewById(R.id.btn_exituser);
-        img = new File(Environment.getExternalStorageDirectory()+"/Img.jpg");
+        img = new File(Environment.getExternalStorageDirectory() + "/Img.jpg");
+        progressBar = (ProgressBar) findViewById(R.id.progressBar_icon);
     }
 
     private void initListeners() {
@@ -79,22 +91,17 @@ public class Users extends Activity implements View.OnClickListener {
     private void initData() {
         SharedPreferences pref = getSharedPreferences("userdata", MODE_PRIVATE);
         userid = pref.getString("userId", "");
-        objecetId=pref.getString("objectId","");
+        objecetId = pref.getString("objectId", "");
         t_name.setText(pref.getString("userName", ""));
-        t_sex.setText(pref.getString("userSex", ""));
-        iconpath=this.getFilesDir() +"/"+ userid + ".jpg";
+        t_sex.setText(pref.getString("userSex", "男 "));
+        iconpath = getApplicationContext().getFilesDir() + "/" + userid + ".jpg";
         icon = new File(iconpath);
         if (icon.exists()) {
             Bitmap bitmap = BitmapFactory.decodeFile(iconpath);
             imageView.setImageBitmap(bitmap);
         } else {
-            if (pref.getBoolean("userIcon",false)){
-                Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.it);
-                imageView.setImageBitmap(bitmap);
-            }else {
-
-            }
-
+            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.it);
+            imageView.setImageBitmap(bitmap);
         }
     }
 
@@ -151,7 +158,7 @@ public class Users extends Activity implements View.OnClickListener {
                 startphotoZoom(data.getData());
                 break;
             case 3:
-                if (data != null){
+                if (data != null) {
                     save(data);
                 }
         }
@@ -166,52 +173,49 @@ public class Users extends Activity implements View.OnClickListener {
         intent.putExtra("return-data", true);
         startActivityForResult(intent, 3);
     }
-    public void save(Intent data){
-        Bundle extras=data.getExtras();
-        if (extras!=null){
-            Bitmap photo = extras.getParcelable("data");
-            imageView.setImageBitmap(photo);
-            try {
-                FileOutputStream fos=new FileOutputStream(iconpath);
-                photo.compress(Bitmap.CompressFormat.JPEG,100,fos);
-                uploadBitmap();
 
-            } catch (FileNotFoundException e){
+    public void save(Intent data) {
+        Bundle extras = data.getExtras();
+        if (extras != null) {
+            Bitmap photo = extras.getParcelable("data");
+            try {
+                FileOutputStream fos = new FileOutputStream(iconpath);
+                photo.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+                uploadBitmap();
+                imageView.setImageBitmap(photo);
+
+            } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
         }
     }
-    public void uploadBitmap(){
-        final BmobFile bmobFile=new BmobFile(new File(iconpath));
-        Log.e("11", "uploadBitmap: "+bmobFile );
-        bmobFile.uploadblock(this, new UploadFileListener() {
+
+    public void uploadBitmap() {
+        final BmobFile bmobFile = new BmobFile(new File(iconpath));
+        bmobFile.uploadblock(new UploadFileListener() {
             @Override
             public void onProgress(Integer integer) {
-
+                progressBar.setProgress(integer);
             }
 
             @Override
-            public void onSuccess() {
-                Toast.makeText(Users.this,"上传成功！",Toast.LENGTH_SHORT).show();
-                Log.e("2", "chenggong");
-                User user=new User();
-                user.setIcon(bmobFile);
-                user.update(Users.this, objecetId, new UpdateListener() {
-                    @Override
-                    public void onSuccess() {
+            public void done(BmobException e) {
+                if (e == null) {
+                    SharedPreferences.Editor editor = getSharedPreferences("userdata", MODE_PRIVATE).edit();
+                    editor.putBoolean("userIcon", true);
+                    editor.apply();
+                    Toast.makeText(Users.this, "上传成功！", Toast.LENGTH_SHORT).show();
+                    User user = new User();
+                    user.setIcon(bmobFile);
+                    user.update(objecetId, new UpdateListener() {
+                        @Override
+                        public void done(BmobException e) {
 
-                    }
-
-                    @Override
-                    public void onFailure(int i, String s) {
-
-                    }
-                });
-            }
-
-            @Override
-            public void onFailure(int i, String s) {
-                Log.e("2222", "onFailure: "+i+s );
+                        }
+                    });
+                } else {
+                    Toast.makeText(Users.this, "上传失败！" + e, Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
