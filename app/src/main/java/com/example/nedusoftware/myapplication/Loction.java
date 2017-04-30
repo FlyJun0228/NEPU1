@@ -2,6 +2,7 @@ package com.example.nedusoftware.myapplication;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -9,6 +10,9 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.view.KeyEvent;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.baidu.mapapi.SDKInitializer;
@@ -27,7 +31,7 @@ public class Loction extends AppCompatActivity {
     private BaiduMap baidumap;
     private MapView mapView;
     private String provider;
-
+private Button button;
 
 
     @Override
@@ -36,10 +40,19 @@ public class Loction extends AppCompatActivity {
         SDKInitializer.initialize(getApplicationContext());
         setContentView(R.layout.activity_loction);
         initView();
+        initListener();
         Muyi();
 
     }
-
+    public void initListener() {
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Loction.this,MainActivity.class);
+                startActivity(intent);
+                Loction.this.finish();
+            }
+        });}
     public void Location() {
         baidumap = mapView.getMap();
         baidumap.setMyLocationEnabled(true);
@@ -111,7 +124,7 @@ public class Loction extends AppCompatActivity {
         mapView.onResume();
     }
     public void initView(){
-
+        button = (Button)findViewById(R.id.back);
         mapView = (MapView) findViewById(R.id.flmap);
 
     }
@@ -127,6 +140,18 @@ public class Loction extends AppCompatActivity {
         locationBuilder.longitude(126.5108316580);
         MyLocationData locationData = locationBuilder.build();
         baidumap.setMyLocationData(locationData);
+      baidumap.setMapType(BaiduMap.MAP_TYPE_SATELLITE);
+        baidumap.setBuildingsEnabled(true);
+    }
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        // 是否触发按键为back键
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            Intent intent = new Intent(Loction.this,MainActivity.class);
+            startActivity(intent);
+            Loction.this.finish();
+        }
+        return false;
     }
 }
 

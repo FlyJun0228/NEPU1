@@ -10,6 +10,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -40,10 +41,18 @@ public class MyLocation extends AppCompatActivity {
         setContentView(R.layout.activity_my_location);
         initView();
         initListener();
-        Location();
+       Location();
 
     }
-
+    public void initListener() {
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MyLocation.this,MainActivity.class);
+                startActivity(intent);
+                MyLocation.this.finish();
+            }
+        });}
     public void Location() {
         baidumap = mapView.getMap();
         baidumap.setMyLocationEnabled(true);
@@ -69,7 +78,7 @@ public class MyLocation extends AppCompatActivity {
         }
         Location location = locationmanager.getLastKnownLocation(provider);
         LatLng ll = new LatLng(location.getLatitude(), location.getLongitude());
-        MapStatusUpdate update1 = MapStatusUpdateFactory.zoomTo(19);
+        MapStatusUpdate update1 = MapStatusUpdateFactory.zoomTo(17);
         baidumap.animateMapStatus(update1);
         MapStatusUpdate update = MapStatusUpdateFactory.newLatLng(ll);
         baidumap.animateMapStatus(update);
@@ -79,6 +88,8 @@ public class MyLocation extends AppCompatActivity {
         MyLocationData locationData = locationBuilder.build();
         baidumap.setMyLocationData(locationData);
         locationmanager.requestLocationUpdates(provider,1,1,locationListener);
+        baidumap.setMapType(BaiduMap.MAP_TYPE_SATELLITE);
+        baidumap.setTrafficEnabled(true);
     }
 
     LocationListener locationListener = new LocationListener() {
@@ -115,19 +126,19 @@ public class MyLocation extends AppCompatActivity {
         mapView.onResume();
     }
     public void initView(){
-        mapView = (MapView) findViewById(R.id.flmap);
         button = (Button)findViewById(R.id.back);
-    }
-    public void initListener() {
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MyLocation.this,MainActivity.class);
-                startActivity(intent);
-                MyLocation.this.finish();
-            }
-        });
+        mapView = (MapView) findViewById(R.id.flmap);
 
+    }
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        // 是否触发按键为back键
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            Intent intent = new Intent(MyLocation.this,MainActivity.class);
+            startActivity(intent);
+            MyLocation.this.finish();
+        }
+        return false;
     }
     public void Muyi(){
         BaiduMap baidumap = mapView.getMap();
@@ -143,5 +154,3 @@ public class MyLocation extends AppCompatActivity {
         baidumap.setMyLocationData(locationData);
     }
 }
-
-

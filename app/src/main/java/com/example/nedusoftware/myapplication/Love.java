@@ -18,6 +18,8 @@ import android.widget.Toast;
 import com.example.nedusoftware.myapplication.adapter.BaseAdapterHelper;
 import com.example.nedusoftware.myapplication.adapter.QuickAdapter;
 import com.example.nedusoftware.myapplication.adapter.base.EditPopupWindow;
+import com.example.nedusoftware.myapplication.bean.Found;
+import com.example.nedusoftware.myapplication.bean.Lost;
 import com.example.nedusoftware.myapplication.bean.lov;
 import com.example.nedusoftware.myapplication.config.Constants;
 import com.example.nedusoftware.myapplication.i.IPopupItemClick;
@@ -25,8 +27,9 @@ import com.example.nedusoftware.myapplication.i.IPopupItemClick;
 import java.util.List;
 
 import cn.bmob.v3.BmobQuery;
-import cn.bmob.v3.listener.DeleteListener;
+import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
+import cn.bmob.v3.listener.UpdateListener;
 
 import static com.example.nedusoftware.myapplication.R.id.tv_describe;
 import static com.example.nedusoftware.myapplication.R.id.tv_photo;
@@ -43,6 +46,8 @@ public class Love extends BaseActivity implements View.OnClickListener,
 
     protected QuickAdapter<lov> LostAdapter;// ʧ��
 
+    protected QuickAdapter<lov> FoundAdapter;// ����
+
     private Button layout_found;
     private Button layout_lost;
     PopupWindow morePop;
@@ -55,7 +60,7 @@ public class Love extends BaseActivity implements View.OnClickListener,
     public void setContentView() {
         // TODO Auto-generated method stub
         setContentView(R.layout.activity_love);
-        Toast.makeText(Love.this,"温馨小提示，表白一旦发出就不能被删除哦~~",Toast.LENGTH_LONG).show();
+        Toast.makeText(Love.this,"表白一旦发布就不能被删除哦~~~~",Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -65,13 +70,15 @@ public class Love extends BaseActivity implements View.OnClickListener,
         layout_no = (LinearLayout) findViewById(R.id.layout_no);
         tv_no = (TextView) findViewById(R.id.tv_no);
 
+        layout_action = (RelativeLayout) findViewById(R.id.layout_action);
         layout_all = (LinearLayout) findViewById(R.id.layout_all);
         // Ĭ����ʧ�����
-        tv_lost = (TextView) findViewById(R.id.tv_lost);
+        tv_lost = (TextView) findViewById(R.id.tv_lostt);
+        tv_lost.setTag("丢失");
         listview = (ListView) findViewById(R.id.list_lost);
         btn_add = (Button) findViewById(R.id.btn_add);
         // ��ʼ����������
-
+        initEditPop();
     }
 
     @Override
@@ -79,7 +86,6 @@ public class Love extends BaseActivity implements View.OnClickListener,
         // TODO Auto-generated method stub
         listview.setOnItemLongClickListener(this);
         btn_add.setOnClickListener(this);
-        layout_all.setOnClickListener(this);
     }
 
     @Override
@@ -89,12 +95,12 @@ public class Love extends BaseActivity implements View.OnClickListener,
             showListPop();
         } else if (v == btn_add) {
             Intent intent = new Intent(this, AddLove.class);
+            intent.putExtra("from", tv_lost.getTag().toString());
             startActivityForResult(intent, Constants.REQUESTCODE_ADD);
         } else if (v == layout_found) {
-            changeTextView(v);
             morePop.dismiss();
+            queryFounds();
         } else if (v == layout_lost) {
-            changeTextView(v);
             morePop.dismiss();
             queryLosts();
         }
@@ -114,20 +120,21 @@ public class Love extends BaseActivity implements View.OnClickListener,
             };
         }
 
+        if (FoundAdapter == null) {
+            FoundAdapter = new QuickAdapter<lov>(this, R.layout.loveitem) {
+                @Override
+                protected void convert(BaseAdapterHelper helper, lov found) {
+                    helper.setText(tv_title, found.getTitle())
+                            .setText(tv_describe, found.getDescribe())
+                            .setText(tv_photo, found.getPhone());
+                }
+            };
+        }
         listview.setAdapter(LostAdapter);
         // Ĭ�ϼ���ʧ�����
         queryLosts();
     }
 
-    private void changeTextView(View v) {
-        if (v == layout_found) {
-            tv_lost.setTag("Found");
-            tv_lost.setText("Found");
-        } else {
-            tv_lost.setTag("Lost");
-            tv_lost.setText("Lost");
-        }
-    }
 
     @SuppressWarnings("deprecation")
     private void showListPop() {
@@ -156,11 +163,26 @@ public class Love extends BaseActivity implements View.OnClickListener,
         morePop.setFocusable(true);
         morePop.setOutsideTouchable(true);
         morePop.setBackgroundDrawable(new BitmapDrawable());
+        // ����Ч�� �Ӷ�������
         morePop.setAnimationStyle(R.style.MenuPop);
+        morePop.showAsDropDown(layout_action, 0, -dip2px(this, 2.0F));
+    }
+
+    private void initEditPop() {
+        mPopupWindow = new EditPopupWindow(this, 200, 48);
+        mPopupWindow.setOnPopupItemClickListner(this);
     }
 
     EditPopupWindow mPopupWindow;
     int position;
+
+    @Override
+    public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int arg2,
+                                   long arg3) {
+        // TODO Auto-generated method stub
+        Toast.makeText(Love.this,"表白不能被删除哦~~~~",Toast.LENGTH_LONG).show();
+        return false;
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -171,6 +193,12 @@ public class Love extends BaseActivity implements View.OnClickListener,
         }
         switch (requestCode) {
             case Constants.REQUESTCODE_ADD:// ��ӳɹ�֮��Ļص�
+                String tag = tv_lost.getTag().toString();
+                if (tag.equals("丢失")) {
+                    queryLosts();
+                } else {
+                    queryFounds();
+                }
                 break;
         }
     }
@@ -185,30 +213,54 @@ public class Love extends BaseActivity implements View.OnClickListener,
         showView();
         BmobQuery<lov> query = new BmobQuery<lov>();
         query.order("-createdAt");// ����ʱ�併��
-        query.findObjects(this, new FindListener<lov>() {
-
+        query.findObjects(new FindListener<lov>() {
             @Override
-            public void onSuccess(List<lov> losts) {
-                // TODO Auto-generated method stub
-                LostAdapter.clear();
-                if (losts == null || losts.size() == 0) {
+            public void done(List<lov> losts, BmobException e) {
+                if (e == null) {
+                    // TODO Auto-generated method stub
+                    LostAdapter.clear();
+                    FoundAdapter.clear();
+                    if (losts == null || losts.size() == 0) {
+                        showErrorView(0);
+                        LostAdapter.notifyDataSetChanged();
+                        return;
+                    }
+                    progress.setVisibility(View.GONE);
+                    LostAdapter.addAll(losts);
+                    listview.setAdapter(LostAdapter);
+                } else {
                     showErrorView(0);
-                    LostAdapter.notifyDataSetChanged();
-                    return;
                 }
-                progress.setVisibility(View.GONE);
-                LostAdapter.addAll(losts);
-                listview.setAdapter(LostAdapter);
-            }
-
-            @Override
-            public void onError(int code, String arg0) {
-                // TODO Auto-generated method stub
-                showErrorView(0);
             }
         });
     }
 
+    public void queryFounds() {
+        showView();
+        BmobQuery<lov> query = new BmobQuery<lov>();
+        query.order("-createdAt");// ����ʱ�併��
+        query.findObjects(new FindListener<lov>() {
+
+            @Override
+            public void done(List<lov> arg0, BmobException e) {
+                if (e == null) {
+                    // TODO Auto-generated method stub
+                    LostAdapter.clear();
+                    FoundAdapter.clear();
+                    if (arg0 == null || arg0.size() == 0) {
+                        showErrorView(1);
+                        FoundAdapter.notifyDataSetChanged();
+                        return;
+                    }
+                    FoundAdapter.addAll(arg0);
+                    listview.setAdapter(FoundAdapter);
+                    progress.setVisibility(View.GONE);
+                } else {
+                    showErrorView(1);
+                }
+            }
+        });
+    }
 
     /**
      * ����������������ʱ����ʾ�Ľ��� showErrorView
@@ -236,15 +288,18 @@ public class Love extends BaseActivity implements View.OnClickListener,
     public void onEdit(View v) {
         // TODO Auto-generated method stub
         String tag = tv_lost.getTag().toString();
-        Intent intent = new Intent(this, AddActivity.class);
+        Intent intent = new Intent(this, AddLove.class);
         String title = "";
         String describe = "";
         String phone = "";
-        if (tag.equals("Lost")) {
+        if (tag.equals("丢失")) {
             title = LostAdapter.getItem(position).getTitle();
             describe = LostAdapter.getItem(position).getDescribe();
             phone = LostAdapter.getItem(position).getPhone();
         } else {
+            title = FoundAdapter.getItem(position).getTitle();
+            describe = FoundAdapter.getItem(position).getDescribe();
+            phone = FoundAdapter.getItem(position).getPhone();
         }
         intent.putExtra("describe", describe);
         intent.putExtra("phone", phone);
@@ -257,35 +312,40 @@ public class Love extends BaseActivity implements View.OnClickListener,
     public void onDelete(View v) {
         // TODO Auto-generated method stub
         String tag = tv_lost.getTag().toString();
-        if (tag.equals("Lost")) {
+        if (tag.equals("丢失")) {
             deleteLost();
         } else {
-
+            deleteFound();
         }
     }
 
     private void deleteLost() {
-        lov lost = new lov();
+        Lost lost = new Lost();
         lost.setObjectId(LostAdapter.getItem(position).getObjectId());
-        lost.delete(this, new DeleteListener() {
+        lost.delete(new UpdateListener() {
 
             @Override
-            public void onSuccess() {
-                // TODO Auto-generated method stub
-                LostAdapter.remove(position);
-            }
-
-            @Override
-            public void onFailure(int code, String arg0) {
-                // TODO Auto-generated method stub
-
+            public void done(BmobException e) {
+                if (e == null) {
+                    LostAdapter.remove(position);
+                }
             }
         });
     }
 
+    private void deleteFound() {
+        Found found = new Found();
+        found.setObjectId(FoundAdapter.getItem(position).getObjectId());
+        found.delete(new UpdateListener() {
 
-    @Override
-    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-        return false;
+            @Override
+            public void done(BmobException e) {
+                if (e == null) {
+                    FoundAdapter.remove(position);
+                }
+            }
+
+        });
     }
+
 }

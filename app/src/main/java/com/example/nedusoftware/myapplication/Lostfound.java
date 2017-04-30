@@ -72,7 +72,7 @@ public class Lostfound extends BaseActivity implements View.OnClickListener,
         layout_all = (LinearLayout) findViewById(R.id.layout_all);
         // Ĭ����ʧ�����
         tv_lost = (TextView) findViewById(R.id.tv_lost);
-        tv_lost.setTag("Lost");
+        tv_lost.setTag("丢失");
         listview = (ListView) findViewById(R.id.list_lost);
         btn_add = (Button) findViewById(R.id.btn_add);
         // ��ʼ����������
@@ -138,11 +138,11 @@ public class Lostfound extends BaseActivity implements View.OnClickListener,
 
     private void changeTextView(View v) {
         if (v == layout_found) {
-            tv_lost.setTag("Found");
-            tv_lost.setText("Found");
+            tv_lost.setTag("已找到");
+            tv_lost.setText("已找到");
         } else {
-            tv_lost.setTag("Lost");
-            tv_lost.setText("Lost");
+            tv_lost.setTag("丢失");
+            tv_lost.setText("丢失");
         }
     }
 
@@ -208,7 +208,7 @@ public class Lostfound extends BaseActivity implements View.OnClickListener,
         switch (requestCode) {
             case Constants.REQUESTCODE_ADD:// ��ӳɹ�֮��Ļص�
                 String tag = tv_lost.getTag().toString();
-                if (tag.equals("Lost")) {
+                if (tag.equals("丢失")) {
                     queryLosts();
                 } else {
                     queryFounds();
@@ -306,7 +306,7 @@ public class Lostfound extends BaseActivity implements View.OnClickListener,
         String title = "";
         String describe = "";
         String phone = "";
-        if (tag.equals("Lost")) {
+        if (tag.equals("丢失")) {
             title = LostAdapter.getItem(position).getTitle();
             describe = LostAdapter.getItem(position).getDescribe();
             phone = LostAdapter.getItem(position).getPhone();
@@ -326,10 +326,10 @@ public class Lostfound extends BaseActivity implements View.OnClickListener,
     public void onDelete(View v) {
         // TODO Auto-generated method stub
         String tag = tv_lost.getTag().toString();
-        if (tag.equals("Lost")) {
+        if (tag.equals("丢失信息")) {
             deleteLost();
         } else {
-            deleteFound();
+            deleteLost();
         }
     }
 
@@ -347,19 +347,5 @@ public class Lostfound extends BaseActivity implements View.OnClickListener,
         });
     }
 
-    private void deleteFound() {
-        Found found = new Found();
-        found.setObjectId(FoundAdapter.getItem(position).getObjectId());
-        found.delete(new UpdateListener() {
-
-            @Override
-            public void done(BmobException e) {
-                if (e == null) {
-                    FoundAdapter.remove(position);
-                }
-            }
-
-        });
-    }
 
 }

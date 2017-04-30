@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.example.nedusoftware.myapplication.bean.lov;
 
+import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.SaveListener;
 
 
@@ -82,19 +83,17 @@ public class AddLove extends BaseActivity implements OnClickListener {
     private void addLost(){
         lov love = new lov();
         love.setDescribe(describe);
-        love.save(this, new SaveListener() {
-            @Override
-            public void onSuccess() {
-                // TODO Auto-generated method stub
-                ShowToast("发布成功!");
-                setResult(RESULT_OK);
-                finish();
-            }
+        love.save(new SaveListener<String>() {
 
             @Override
-            public void onFailure(int code, String arg0) {
-                // TODO Auto-generated method stub
-                ShowToast("发布失败:"+arg0);
+            public void done(String s, BmobException e) {
+                if (e == null) {
+                    ShowToast("发布成功!");
+                    setResult(RESULT_OK);
+                    finish();
+                } else {
+                    ShowToast("发布失败:" + e);
+                }
             }
         });
     }
